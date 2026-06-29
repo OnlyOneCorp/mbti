@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>케바케 MBTI · MBTI IRL — OnlyOne</title>
+<meta name="description" content="상황 20개로 알아보는 진짜 내 성격. 결과 카드에 혈액형까지 유추! | Find your real MBTI through 20 real-life moments, with a fun blood-type guess." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="케바케 MBTI — 상황으로 알아보는 진짜 내 성격" />
+<meta property="og:description" content="20개 상황만 클릭하면 내 MBTI + 혈액형 유추까지!" />
+<meta property="og:type" content="website" />
+
+<!-- Pretendard -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<!-- ===== Google Analytics 4 + Consent Mode v2 (default deny) ===== -->
+<script>
+  // 동의 전: 모든 저장소 거부 (EEA 기준 안전 기본값)
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'wait_for_update': 500
+  });
+</script>
+<!-- 배포 전 G-XXXXXXXXXX 를 이 앱 전용 GA4 측정 ID로 교체 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', { 'anonymize_ip': true });
+</script>
+
+<style>
+  :root{
+    --ink:#3D4248;
+    --ink-soft:#6b7178;
+    --bg:#FAFAF8;
+    --card:#ffffff;
+    --line:#ececea;
+    --accent:#3D4248;
+    --radius:22px;
+    --shadow:0 10px 40px rgba(40,44,48,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;align-items:center;
+    padding:24px 18px 48px;
+    min-height:100%;
+  }
+  .wrap{width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;}
+
+  /* Top bar */
+  .top{width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;}
+  .brand{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;color:var(--ink);}
+  .brand svg{width:26px;height:32px;display:block;}
+  .brand .name{font-weight:700;font-size:17px;letter-spacing:-.3px;}
+  .lang{
+    border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:7px 14px;font-size:13px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;transition:.2s;
+  }
+  .lang:active{transform:scale(.96);}
+
+  /* Cards / screens */
+  .screen{width:100%;display:none;animation:rise .4s ease;}
+  .screen.on{display:block;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  .hero{text-align:center;padding:18px 0 8px;}
+  .hero .logo-big{width:64px;height:80px;display:block;}
+
+  /* decorative art */
+  .heroArt{position:relative;width:130px;height:140px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;}
+  .heroArt .logo-big{position:relative;z-index:2;}
+  .hero-char{position:relative;z-index:2;width:120px;height:auto;}
+  .hero-char .tile{transform-box:fill-box;transform-origin:center;animation:pop 3.6s ease-in-out infinite;animation-delay:var(--d);}
+  @keyframes pop{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+  .aura{position:absolute;width:150px;height:150px;border-radius:50%;
+    background:conic-gradient(from 0deg,#ffd9e3,#d6ecff,#dafbe4,#fff4cf,#ffe0ec,#ffd9e3);
+    filter:blur(28px);opacity:.55;z-index:1;animation:spin 16s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .blob{position:absolute;border-radius:50%;filter:blur(7px);opacity:.55;z-index:0;animation:float 6s ease-in-out infinite;}
+  .blob.b1{width:26px;height:26px;background:#ffc7d6;top:8px;left:6px;}
+  .blob.b2{width:20px;height:20px;background:#bfe0ff;bottom:16px;right:4px;animation-delay:1.5s;}
+  .blob.b3{width:15px;height:15px;background:#c8f4d4;top:22px;right:14px;animation-delay:3s;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+
+  .bloodTeaser{display:flex;gap:7px;align-items:center;justify-content:center;margin-bottom:24px;font-size:12.5px;color:var(--ink-soft);font-weight:600;}
+  .bpill{display:inline-flex;gap:5px;}
+  .bpill span{background:#f0efec;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:800;color:var(--ink);}
+
+  /* result emoji + holographic sheen */
+  .resultArt{position:relative;width:112px;height:112px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;}
+  .resultArt .aura{width:122px;height:122px;opacity:.6;}
+  .remoji{position:relative;z-index:2;font-size:56px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.12));}
+  .holo{position:absolute;inset:0;border-radius:var(--radius);pointer-events:none;z-index:3;
+    background:linear-gradient(115deg,transparent 35%,rgba(170,195,255,.20) 46%,rgba(255,190,225,.20) 54%,transparent 66%);
+    background-size:260% 260%;animation:sheen 5.5s ease-in-out infinite;}
+  @keyframes sheen{0%{background-position:130% 0;}60%,100%{background-position:-50% 0;}}
+  .hero h1{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:12px;line-height:1.15;}
+  .hero p{color:var(--ink-soft);font-size:15.5px;max-width:420px;margin:0 auto 28px;}
+  .tag{display:inline-block;background:#f0efec;color:var(--ink-soft);font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:999px;margin-bottom:22px;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--ink);color:#fff;border:none;border-radius:999px;
+    padding:15px 34px;font-size:16px;font-weight:700;cursor:pointer;
+    font-family:inherit;transition:.18s;width:100%;max-width:320px;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);}
+
+  /* Quiz */
+  .progress{width:100%;height:6px;background:#ececea;border-radius:999px;overflow:hidden;margin-bottom:8px;}
+  .progress > i{display:block;height:100%;width:0;background:var(--ink);border-radius:999px;transition:width .35s ease;}
+  .qcount{font-size:13px;color:var(--ink-soft);font-weight:600;margin-bottom:22px;text-align:center;}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 24px;}
+  .qsit{font-size:21px;font-weight:700;letter-spacing:-.4px;line-height:1.4;margin-bottom:10px;text-align:center;min-height:62px;display:flex;align-items:center;justify-content:center;}
+  .qex{font-size:13.5px;color:#aeb3b8;font-style:italic;text-align:center;margin-bottom:24px;line-height:1.45;}
+  .qtop{width:100%;min-height:26px;margin-bottom:8px;}
+  .backBtn{background:none;border:none;color:var(--ink-soft);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;padding:4px 2px;}
+  .backBtn:active{opacity:.55;}
+  .opts{display:flex;flex-direction:column;gap:12px;}
+  .opt{
+    background:#fff;border:1.5px solid var(--line);border-radius:16px;
+    padding:17px 20px;font-size:16px;font-weight:600;text-align:left;cursor:pointer;
+    font-family:inherit;color:var(--ink);transition:.15s;line-height:1.4;
+  }
+  .opt:hover{border-color:var(--ink);}
+  .opt:active{transform:scale(.985);background:#faf9f7;}
+
+  /* Result */
+  .rcard{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 26px;text-align:center;overflow:hidden;}
+  .rtype{font-size:54px;font-weight:800;letter-spacing:1px;background:linear-gradient(120deg,#3D4248,#8a9099);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .rnick{font-size:20px;font-weight:700;margin:4px 0 16px;}
+  .rdesc{color:var(--ink-soft);font-size:15.5px;margin-bottom:24px;}
+  .blood{background:#f6f5f2;border-radius:16px;padding:16px 18px;margin-bottom:24px;}
+  .blood .bt{font-size:13px;color:var(--ink-soft);font-weight:600;margin-bottom:4px;}
+  .blood .bv{font-size:24px;font-weight:800;}
+  .blood .bl{font-size:13.5px;color:var(--ink-soft);margin-top:6px;font-style:italic;}
+  .reco{border-top:1px solid var(--line);padding-top:22px;margin-bottom:6px;}
+  .reco .rl{font-size:13px;color:var(--ink-soft);font-weight:600;margin-bottom:10px;}
+  .reco .ri{font-size:16px;font-weight:700;margin-bottom:14px;}
+  .aff{display:flex;flex-direction:column;gap:10px;}
+  .aff a{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:14px;padding:13px;font-size:15px;font-weight:700;text-decoration:none;transition:.15s;}
+  .aff a:active{transform:scale(.98);}
+  .aff .coupang{background:#3a4a9f;color:#fff;}
+  .aff .amazon{background:#ff9900;color:#1a1a1a;}
+
+  .ractions{display:flex;flex-direction:column;gap:12px;margin-top:22px;width:100%;}
+
+  /* Footer */
+  footer{margin-top:34px;text-align:center;color:var(--ink-soft);font-size:12.5px;line-height:1.7;width:100%;}
+  footer a{color:var(--ink-soft);}
+  .disc{margin-top:10px;font-size:11.5px;color:#9aa0a6;}
+
+  /* Consent banner */
+  .consent{
+    position:fixed;left:14px;right:14px;bottom:14px;z-index:100;
+    background:#fff;border:1px solid var(--line);border-radius:20px;
+    box-shadow:0 12px 50px rgba(40,44,48,.16);padding:20px 22px;
+    max-width:520px;margin:0 auto;display:none;animation:rise .35s ease;
+  }
+  .consent.on{display:block;}
+  .consent p{font-size:13.5px;color:var(--ink-soft);margin-bottom:14px;line-height:1.6;}
+  .consent .cbtns{display:flex;gap:10px;}
+  .consent button{flex:1;border-radius:12px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;border:none;}
+  .consent .accept{background:var(--ink);color:#fff;}
+  .consent .decline{background:#f0efec;color:var(--ink);}
+
+  @media(max-width:420px){
+    .hero h1{font-size:27px;}
+    .rtype{font-size:46px;}
+    .qsit{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Top bar -->
+  <div class="top">
+    <a class="brand" href="https://main.onlyonecorpceo.workers.dev" target="_blank" rel="noopener">
+      <svg viewBox="0 0 64 80" aria-hidden="true">
+        <circle cx="32" cy="25" r="19" fill="none" stroke="#3D4248" stroke-width="9"/>
+        <rect x="27" y="46" width="10" height="30" rx="5" fill="#3D4248"/>
+      </svg>
+      <span class="name">OnlyOne</span>
+    </a>
+    <button class="lang" id="langBtn">EN</button>
+  </div>
+
+  <!-- Intro -->
+  <section class="screen on" id="intro">
+    <div class="hero">
+      <div class="heroArt">
+        <span class="aura"></span>
+        <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+        <svg class="hero-char" viewBox="0 0 140 140" aria-hidden="true">
+          <g class="tile" style="--d:0s">
+            <rect x="4" y="4" width="62" height="62" rx="16" fill="#ffe0ea"/>
+            <text x="35" y="36" text-anchor="middle" dominant-baseline="central" font-family="Pretendard, sans-serif" font-size="22" font-weight="800" fill="#3D4248">E·I</text>
+          </g>
+          <g class="tile" style="--d:.4s">
+            <rect x="74" y="4" width="62" height="62" rx="16" fill="#dcefff"/>
+            <text x="105" y="36" text-anchor="middle" dominant-baseline="central" font-family="Pretendard, sans-serif" font-size="22" font-weight="800" fill="#3D4248">S·N</text>
+          </g>
+          <g class="tile" style="--d:.8s">
+            <rect x="4" y="74" width="62" height="62" rx="16" fill="#ddf6e3"/>
+            <text x="35" y="106" text-anchor="middle" dominant-baseline="central" font-family="Pretendard, sans-serif" font-size="22" font-weight="800" fill="#3D4248">T·F</text>
+          </g>
+          <g class="tile" style="--d:1.2s">
+            <rect x="74" y="74" width="62" height="62" rx="16" fill="#fff3cf"/>
+            <text x="105" y="106" text-anchor="middle" dominant-baseline="central" font-family="Pretendard, sans-serif" font-size="22" font-weight="800" fill="#3D4248">J·P</text>
+          </g>
+        </svg>
+      </div>
+      <span class="tag" data-ko="상황별 성격 테스트 · 20문항" data-en="Situational personality test · 20 Q"></span>
+      <h1 data-ko="케바케 MBTI" data-en="MBTI IRL"></h1>
+      <p data-ko="상황 20개를 클릭하면 진짜 내 MBTI가 나와요. 마지막엔 혈액형까지 슬쩍 유추해드려요." data-en="Click through 20 real-life moments to reveal your true MBTI. We’ll even take a cheeky guess at your blood type."></p>
+      <div class="bloodTeaser">
+        <span data-ko="당신은 무슨 형?" data-en="Which type are you?"></span>
+        <span class="bpill"><span>A</span><span>B</span><span>O</span><span>AB</span></span>
+      </div>
+      <button class="btn" id="startBtn" data-ko="시작하기" data-en="Start"></button>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section class="screen" id="quiz">
+    <div class="qtop"><button class="backBtn" id="backBtn" data-ko="← 이전" data-en="← Back"></button></div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="qcount" id="qcount"></div>
+    <div class="qcard">
+      <div class="qsit" id="qsit"></div>
+      <div class="qex" id="qex"></div>
+      <div class="opts">
+        <button class="opt" id="optA"></button>
+        <button class="opt" id="optB"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Result -->
+  <section class="screen" id="result">
+    <div class="rcard" id="rcard">
+      <span class="holo"></span>
+      <div class="resultArt">
+        <span class="aura"></span>
+        <span class="remoji" id="remoji"></span>
+      </div>
+      <div class="rtype" id="rtype"></div>
+      <div class="rnick" id="rnick"></div>
+      <div class="rdesc" id="rdesc"></div>
+      <div class="blood">
+        <div class="bt" data-ko="혈액형 유추 (재미로만!)" data-en="Blood-type guess (just for fun!)"></div>
+        <div class="bv" id="bloodVal"></div>
+        <div class="bl" id="bloodLine"></div>
+      </div>
+      <div class="reco">
+        <div class="rl" data-ko="이런 너에게 어울리는 픽" data-en="A pick that suits you"></div>
+        <div class="ri" id="recoItem"></div>
+        <div class="aff">
+          <a class="coupang" id="coupangBtn" href="#" target="_blank" rel="noopener sponsored" data-ko="쿠팡에서 보기" data-en="See on Coupang"></a>
+          <a class="amazon" id="amazonBtn" href="#" target="_blank" rel="noopener sponsored" data-ko="아마존에서 보기" data-en="See on Amazon"></a>
+        </div>
+      </div>
+    </div>
+    <div class="ractions">
+      <button class="btn" id="saveBtn" data-ko="이미지 저장" data-en="Save image"></button>
+      <button class="btn" id="shareBtn" data-ko="결과 공유하기" data-en="Share result"></button>
+      <button class="btn ghost" id="retryBtn" data-ko="다시 하기" data-en="Try again"></button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div data-ko="문의: onlyonecorpceo@gmail.com" data-en="Contact: onlyonecorpceo@gmail.com"></div>
+    <div style="margin-top:4px;">© OnlyOne · <span data-ko="즐거운 하루를 위하여" data-en="For a Happy Day"></span></div>
+    <div class="disc" id="discCoupang">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+    <div class="disc" id="discAmazon" style="display:none;">As an Amazon Associate, OnlyOne earns from qualifying purchases.</div>
+  </footer>
+</div>
+
+<!-- Consent banner -->
+<div class="consent" id="consent">
+  <p data-ko="OnlyOne은 방문 통계 분석을 위해 쿠키를 사용합니다. 동의하시겠어요?" data-en="OnlyOne uses cookies to measure visits. Do you consent?"></p>
+  <div class="cbtns">
+    <button class="decline" id="declineBtn" data-ko="필수만" data-en="Essential only"></button>
+    <button class="accept" id="acceptBtn" data-ko="모두 허용" data-en="Accept all"></button>
+  </div>
+</div>
+
+<script>
+/* ============ Config (배포 전 교체) ============ */
+const COUPANG_URL = "https://link.coupang.com/a/XXXXXX"; // 쿠팡 파트너스 고정 딥링크
+const AMAZON_URL  = "https://www.amazon.com/?tag=onlyone-20"; // 아마존 어소시에이트 태그
+
+/* ============ Questions (5 per dimension) ============ */
+const Q = [
+  // E / I
+  {ko:"주말 약속이 갑자기 다 취소됐다.",en:"All your weekend plans suddenly got canceled.",
+   a:{ko:"개꿀 🙌 집에서 푹 쉰다",en:"Score 🙌 cozy day in",l:"I"},
+   b:{ko:"다른 친구한테 바로 연락 돌린다",en:"Text other friends right away",l:"E"}},
+  {ko:"처음 가는 모임에 도착했다.",en:"You arrive at a gathering full of strangers.",
+   a:{ko:"먼저 다가가 말을 건다",en:"Walk up and start chatting",l:"E"},
+   b:{ko:"누가 말 걸어주길 기다린다",en:"Wait for someone to approach",l:"I"}},
+  {ko:"스트레스가 폭발했다.",en:"Stress is piling up.",
+   a:{ko:"혼자만의 시간으로 충전한다",en:"Recharge with alone time",l:"I"},
+   b:{ko:"사람 만나 수다로 푼다",en:"Vent it out with people",l:"E"}},
+  {ko:"엘리베이터에서 직장 동료를 마주쳤다.",en:"You bump into a coworker in the elevator.",
+   a:{ko:"자연스럽게 안부를 묻는다",en:"Make easy small talk",l:"E"},
+   b:{ko:"폰 보는 척하며 버틴다",en:"Pretend to check my phone",l:"I"}},
+  {ko:"방금 엄청난 소식을 들었다.",en:"You just heard some big news.",
+   a:{ko:"일단 속으로 곱씹는다",en:"Process it quietly first",l:"I"},
+   b:{ko:"당장 누군가에게 말하고 싶다",en:"Need to tell someone now",l:"E"}},
+
+  // S / N
+  {ko:"여행을 떠나기로 했다.",en:"You're planning a trip.",
+   a:{ko:"동선·맛집까지 미리 다 정한다",en:"Map routes & spots in advance",l:"S"},
+   b:{ko:"가서 그날 느낌대로 움직인다",en:"Wing it once I'm there",l:"N"}},
+  {ko:"좋아하는 영화를 다 봤다.",en:"You just finished a movie you love.",
+   a:{ko:"장면·대사가 또렷이 기억난다",en:"Recall the exact scenes",l:"S"},
+   b:{ko:"분위기와 숨은 의미를 곱씹는다",en:"Mull over its meaning",l:"N"}},
+  {ko:"새로운 걸 배우는 중이다.",en:"You're learning something new.",
+   a:{ko:"구체적인 예시가 와닿는다",en:"Concrete examples click for me",l:"S"},
+   b:{ko:"전체 그림과 '왜'가 궁금하다",en:"I want the big picture & why",l:"N"}},
+  {ko:"가구를 새로 조립해야 한다.",en:"You need to assemble new furniture.",
+   a:{ko:"설명서 순서대로 차근차근",en:"Follow the manual step by step",l:"S"},
+   b:{ko:"대충 보고 감으로 시작",en:"Glance, then go by instinct",l:"N"}},
+  {ko:"친구가 고민을 털어놓는다.",en:"A friend shares a worry.",
+   a:{ko:"무슨 일인지 사실부터 묻는다",en:"Ask what exactly happened",l:"S"},
+   b:{ko:"그 일이 가진 의미를 본다",en:"Look at what it really means",l:"N"}},
+
+  // T / F
+  {ko:"친구가 실수로 일을 망쳤다.",en:"A friend messed something up.",
+   a:{ko:"왜 그랬는지 원인부터 짚는다",en:"Pin down what went wrong",l:"T"},
+   b:{ko:"일단 괜찮아, 하고 위로한다",en:"Comfort them first",l:"F"}},
+  {ko:"중요한 결정을 내려야 한다.",en:"You face an important decision.",
+   a:{ko:"논리와 효율로 따진다",en:"Weigh logic & efficiency",l:"T"},
+   b:{ko:"사람들 기분을 먼저 생각한다",en:"Consider how people feel",l:"F"}},
+  {ko:"토론 중 상대가 틀린 말을 한다.",en:"Someone's wrong in a debate.",
+   a:{ko:"맞는 말이면 직설적으로 짚는다",en:"Say it straight if I'm right",l:"T"},
+   b:{ko:"상처받을까 돌려 말한다",en:"Soften it so it won't sting",l:"F"}},
+  {ko:"영화의 슬픈 장면이 나온다.",en:"A sad movie scene comes on.",
+   a:{ko:"'음, 그럴 만하네' 하고 본다",en:"\"Makes sense\" and watch on",l:"T"},
+   b:{ko:"나도 모르게 눈물이 그렁",en:"Tears well up instantly",l:"F"}},
+  {ko:"열심히 한 일로 칭찬받았다.",en:"You got praised for hard work.",
+   a:{ko:"결과가 좋아서 뿌듯하다",en:"Proud the result paid off",l:"T"},
+   b:{ko:"알아줘서 고맙고 뭉클하다",en:"Touched they noticed me",l:"F"}},
+
+  // J / P
+  {ko:"마감이 정해진 일이 생겼다.",en:"A task has a deadline.",
+   a:{ko:"미리미리 끝내야 마음 편하다",en:"Finish early to relax",l:"J"},
+   b:{ko:"막판 스퍼트가 제맛이지",en:"Last-minute sprint, baby",l:"P"}},
+  {ko:"여행 가방을 싸야 한다.",en:"Time to pack for the trip.",
+   a:{ko:"리스트 만들어 착착 챙긴다",en:"Make a list, pack neatly",l:"J"},
+   b:{ko:"전날 밤 후딱 쑤셔 넣는다",en:"Cram it in the night before",l:"P"}},
+  {ko:"세워둔 계획이 갑자기 틀어졌다.",en:"Your plan suddenly falls apart.",
+   a:{ko:"불안하고 스트레스 받는다",en:"It stresses me out",l:"J"},
+   b:{ko:"뭐 그럴 수도 있지, 넘어간다",en:"Eh, stuff happens",l:"P"}},
+  {ko:"지금 내 책상 상태는?",en:"How's your desk right now?",
+   a:{ko:"늘 정리정돈 되어 있다",en:"Always tidy",l:"J"},
+   b:{ko:"어수선해도 다 어디 있는지 안다",en:"Messy but I know where things are",l:"P"}},
+  {ko:"약속 시간이 다가온다.",en:"An appointment is coming up.",
+   a:{ko:"10분 전엔 도착해 있다",en:"I'm there 10 min early",l:"J"},
+   b:{ko:"칼같이 혹은 살짝 늦게",en:"Right on time, or a touch late",l:"P"}}
+];
+
+/* ============ Example skits (same order as Q) ============ */
+const EX = [
+  {ko:"카톡 세 개가 동시에 “미안 다음에ㅠ”",en:"Three texts at once: “sorry, next time 😭”"},
+  {ko:"문 열자마자 모르는 얼굴이 한가득",en:"You open the door to a sea of strangers"},
+  {ko:"오늘 진짜 머리 터질 것 같음",en:"Your brain is basically on fire today"},
+  {ko:"1층까지 단둘이, 13초의 정적",en:"Just you two, 13 floors of pure silence"},
+  {ko:"“야 방금 그거 봤어?!” 손이 다 떨림",en:"“Did you SEE that?!” your hands are shaking"},
+  {ko:"디데이 박은 엑셀 시트 vs 빈 메모장",en:"A color-coded spreadsheet vs an empty notes app"},
+  {ko:"엔딩 크레딧 올라가는데 멍…",en:"Credits roll and you just sit there…"},
+  {ko:"“예를 들면…” → 오, 이제 이해됨",en:"“For example…” → oh, NOW it clicks"},
+  {ko:"부품 봉지 12개, 나사 종류 5개",en:"12 bags of parts, 5 kinds of screws"},
+  {ko:"걔가 한숨부터 푹 쉬고 말을 꺼냄",en:"They start with a deep, heavy sigh"},
+  {ko:"프로젝트 파일이 통째로 날아감",en:"The entire project file just vanished"},
+  {ko:"A안이냐 B안이냐… 머리 아픔",en:"Plan A or Plan B… your head hurts"},
+  {ko:"상대가 아주 자신만만하게 틀린 말을 함",en:"They confidently say something flat-out wrong"},
+  {ko:"강아지가 주인을 계속 기다리는 장면…",en:"The dog keeps waiting for its owner…"},
+  {ko:"팀장님: “이거 누가 했어? 잘했네”",en:"Boss: “who did this? nice work”"},
+  {ko:"마감까지 D-7, 시계는 흐른다",en:"7 days to deadline, the clock is ticking"},
+  {ko:"출발 6시간 전, 가방은 아직 텅",en:"6 hours to go, your bag is still empty"},
+  {ko:"예약한 식당이 갑자기 휴무",en:"The restaurant you booked is suddenly closed"},
+  {ko:"지금 고개 들어 책상 한번 봐",en:"Glance over at your desk right now"},
+  {ko:"약속 30분 전, 너는 지금 어디?",en:"30 min before — where are you right now?"}
+];
+
+/* ============ Results: 16 types ============ */
+const TYPES = {
+  ISTJ:{nick:{ko:"든든한 현실주의자",en:"The Reliable Realist"},desc:{ko:"원칙과 약속을 지키는 믿음직한 사람. 한번 맡으면 끝까지.",en:"Principled and dependable. If you take it on, you finish it."},blood:"A",bl:{ko:"계획표 없으면 불안한 거 보니… A형 각 🅰️",en:"Lost without a plan? Total type-A energy 🅰️"},item:{ko:"데일리 플래너 다이어리",en:"A daily planner notebook"}},
+  ISFJ:{nick:{ko:"다정한 수호자",en:"The Warm Guardian"},desc:{ko:"조용히 주변을 챙기는 따뜻한 사람. 디테일에 진심.",en:"Quietly takes care of everyone. Lives in the details."},blood:"A",bl:{ko:"남 챙기다 정작 본인은 뒷전… 영락없는 A형 🅰️",en:"Always others first? Classic type-A 🅰️"},item:{ko:"포근한 홈웨어 세트",en:"A cozy loungewear set"}},
+  INFJ:{nick:{ko:"신비로운 통찰가",en:"The Mystic Insightful"},desc:{ko:"속을 잘 안 보여주지만 깊게 생각하는 사람.",en:"Hard to read, but thinking deeply underneath."},blood:"AB",bl:{ko:"종잡을 수 없는 매력… 이건 AB형 기운 🆎",en:"Impossible to pin down? AB vibes 🆎"},item:{ko:"무드등 & 아로마 디퓨저",en:"A mood lamp & diffuser"}},
+  INTJ:{nick:{ko:"전략 짜는 설계자",en:"The Mastermind"},desc:{ko:"큰 그림을 그리고 조용히 실행하는 사람.",en:"Plays the long game, executes quietly."},blood:"AB",bl:{ko:"머릿속 시뮬레이션 1000번… 천재과 AB형? 🆎",en:"1000 mental simulations later… genius AB? 🆎"},item:{ko:"미니멀 스탠딩 데스크 정리템",en:"A minimalist desk organizer"}},
+  ISTP:{nick:{ko:"쿨한 장인",en:"The Cool Craftsman"},desc:{ko:"말보다 손이 먼저. 위기에 침착한 해결사.",en:"Hands over words. Calm under pressure."},blood:"B",bl:{ko:"내 페이스 절대 안 깨는 거… B형 마이웨이 🅱️",en:"Never breaks your own pace? B-type my-way 🅱️"},item:{ko:"멀티툴 & 가성비 공구 세트",en:"A handy multi-tool kit"}},
+  ISFP:{nick:{ko:"자유로운 예술가",en:"The Free Spirit"},desc:{ko:"느낌과 감각으로 사는 사람. 강요는 질색.",en:"Lives by feeling and aesthetics. Hates being pushed."},blood:"B",bl:{ko:"내 취향이 곧 법… 자유로운 B형 같은데? 🅱️",en:"Your taste is the law? Free-bird B 🅱️"},item:{ko:"감성 무선 이어버드",en:"Aesthetic wireless earbuds"}},
+  INFP:{nick:{ko:"이상을 품은 몽상가",en:"The Dreamer"},desc:{ko:"가치와 진심을 좇는 따뜻한 낭만파.",en:"Chases values and meaning, warm at heart."},blood:"AB",bl:{ko:"머릿속 우주가 따로 있는 듯… AB형 4차원 🆎",en:"A whole universe in your head? 4-D AB 🆎"},item:{ko:"감성 일기장 & 만년필",en:"A journal & a fountain pen"}},
+  INTP:{nick:{ko:"호기심 많은 논리파",en:"The Curious Logician"},desc:{ko:"왜? 가 입에 붙은 분석러. 아이디어 부자.",en:"\"But why?\" on repeat. An idea machine."},blood:"AB",bl:{ko:"엉뚱+천재 콤보… 괴짜 AB형 🆎",en:"Quirky-genius combo? Eccentric AB 🆎"},item:{ko:"전자책 리더기",en:"An e-reader"}},
+  ESTP:{nick:{ko:"화끈한 모험가",en:"The Bold Adventurer"},desc:{ko:"일단 저지르고 본다. 현장의 에너지 그 자체.",en:"Acts first, thinks later. Pure live energy."},blood:"O",bl:{ko:"분위기 화끈하게 끌고 가는 거… O형 인정 🅾️",en:"You run the room? Classic type-O 🅾️"},item:{ko:"액션캠 & 아웃도어 기어",en:"An action cam & gear"}},
+  ESFP:{nick:{ko:"타고난 인싸",en:"The Spotlight"},desc:{ko:"어디서든 분위기 메이커. 지금 이 순간이 제일 중요.",en:"The life of the party. Lives for right now."},blood:"O",bl:{ko:"사람 좋아하는 에너지 폭발… O형 확정 🅾️",en:"People-energy overflowing? Type-O for sure 🅾️"},item:{ko:"블루투스 파티 스피커",en:"A party Bluetooth speaker"}},
+  ENFP:{nick:{ko:"열정 가득 활동가",en:"The Spark"},desc:{ko:"호기심과 정이 넘치는 분위기 메이커.",en:"Bursting with curiosity and warmth."},blood:"O",bl:{ko:"정 많고 화통한 거… 영락없는 O형 🅾️",en:"Big-hearted and bold? Total type-O 🅾️"},item:{ko:"폴라로이드 즉석카메라",en:"An instant camera"}},
+  ENTP:{nick:{ko:"못 말리는 토론가",en:"The Debater"},desc:{ko:"논쟁도 놀이처럼 즐기는 아이디어 폭격기.",en:"Treats debate as a sport. Idea bomber."},blood:"B",bl:{ko:"틀에 가두면 답답해하는 거… 자유 B형 🅱️",en:"Boxes make you itch? Free-spirit B 🅱️"},item:{ko:"보드게임 & 두뇌 퍼즐",en:"Board games & brain puzzles"}},
+  ESTJ:{nick:{ko:"타고난 관리자",en:"The Director"},desc:{ko:"체계를 세우고 사람을 이끄는 추진력의 화신.",en:"Builds order and drives people forward."},blood:"O",bl:{ko:"리더 자리가 편한 거… 대장 O형 🅾️",en:"Born to lead? Captain type-O 🅾️"},item:{ko:"프리미엄 텀블러 & 업무템",en:"A premium tumbler & desk kit"}},
+  ESFJ:{nick:{ko:"분위기 메이커 조력자",en:"The Caregiver"},desc:{ko:"눈치 빠르고 챙김 만렙. 모두가 편한 게 목표.",en:"Reads the room, looks after everyone."},blood:"A",bl:{ko:"눈치와 배려 만렙… 다정한 A형 🅰️",en:"Caring and tactful? Sweet type-A 🅰️"},item:{ko:"홈카페 디저트 메이커",en:"A home-cafe dessert maker"}},
+  ENFJ:{nick:{ko:"따뜻한 리더",en:"The Mentor"},desc:{ko:"사람을 끌어모으고 이끄는 다정한 카리스마.",en:"Magnetic, warm, and naturally guiding."},blood:"O",bl:{ko:"사람 끌어모으는 힘… 따뜻한 O형 🅾️",en:"You gather people? Warm type-O 🅾️"},item:{ko:"단체 모임용 보드게임",en:"Group party games"}},
+  ENTJ:{nick:{ko:"타고난 지휘관",en:"The Commander"},desc:{ko:"목표를 향해 거침없이 밀어붙이는 추진력의 끝판왕.",en:"Drives relentlessly toward the goal."},blood:"O",bl:{ko:"앞장서는 게 본능… 끝판왕 O형 🅾️",en:"Leading is instinct? Boss-level O 🅾️"},item:{ko:"비즈니스 백팩 & 노트북 스탠드",en:"A business backpack & stand"}}
+};
+
+/* ============ Per-type emoji ============ */
+const EMOJI={ISTJ:'📋',ISFJ:'🛡️',INFJ:'🔮',INTJ:'♟️',ISTP:'🔧',ISFP:'🎨',INFP:'🌙',INTP:'🧪',ESTP:'🏍️',ESFP:'🎉',ENFP:'✨',ENTP:'💬',ESTJ:'📊',ESFJ:'☕',ENFJ:'🤝',ENTJ:'🚀'};
+
+/* ============ State ============ */
+let lang = localStorage.getItem('oo_lang') || 'ko';
+let idx = 0;
+let order = [], step = 0, picks = [];
+let score = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+
+const $ = id => document.getElementById(id);
+
+/* ---- Language ---- */
+function applyLang(){
+  document.documentElement.lang = lang;
+  $('langBtn').textContent = lang === 'ko' ? 'EN' : '한국어';
+  document.querySelectorAll('[data-ko]').forEach(el=>{
+    el.textContent = el.getAttribute('data-'+lang);
+  });
+  // affiliate disclosure scoping
+  $('discCoupang').style.display = lang === 'ko' ? 'block' : 'none';
+  $('discAmazon').style.display  = lang === 'en' ? 'block' : 'none';
+  // re-render current question / result if visible
+  if($('quiz').classList.contains('on')) renderQ();
+  if($('result').classList.contains('on')) renderResult(currentType);
+}
+$('langBtn').onclick = ()=>{
+  lang = lang === 'ko' ? 'en' : 'ko';
+  localStorage.setItem('oo_lang', lang);
+  applyLang();
+};
+
+/* ---- Screens ---- */
+function show(id){
+  ['intro','quiz','result'].forEach(s=>$(s).classList.toggle('on', s===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- Quiz ---- */
+function shuffle(n){
+  const a=[...Array(n).keys()];
+  for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function curQ(){ return Q[order[step]]; }
+function renderQ(){
+  const q = curQ();
+  $('bar').style.width = (step/Q.length*100)+'%';
+  $('qcount').textContent = (lang==='ko'?'질문 ':'Question ')+(step+1)+' / '+Q.length;
+  $('qsit').textContent = q[lang];
+  $('qex').textContent = EX[order[step]][lang];
+  $('optA').textContent = q.a[lang];
+  $('optB').textContent = q.b[lang];
+  $('backBtn').style.visibility = step>0 ? 'visible' : 'hidden';
+}
+function pick(opt){
+  picks.push(opt.l);
+  score[opt.l]++;
+  step++;
+  if(step < Q.length){ renderQ(); }
+  else { finish(); }
+}
+$('optA').onclick = ()=>pick(curQ().a);
+$('optB').onclick = ()=>pick(curQ().b);
+$('backBtn').onclick = ()=>{
+  if(step>0){ step--; const l=picks.pop(); score[l]--; renderQ(); }
+};
+
+$('startBtn').onclick = ()=>{
+  order = shuffle(Q.length); step = 0; picks = [];
+  score={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+  show('quiz'); renderQ();
+  if(window.gtag) gtag('event','start_quiz');
+};
+
+/* ---- Result ---- */
+let currentType = 'ISTJ';
+function calcType(){
+  return (score.E>=score.I?'E':'I')+(score.S>=score.N?'S':'N')+
+         (score.T>=score.F?'T':'F')+(score.J>=score.P?'J':'P');
+}
+function renderResult(t){
+  const d = TYPES[t];
+  $('remoji').textContent = EMOJI[t] || '🧩';
+  $('rtype').textContent = t;
+  $('rnick').textContent = d.nick[lang];
+  $('rdesc').textContent = d.desc[lang];
+  $('bloodVal').textContent = (lang==='ko'? d.blood+'형' : d.blood+' type');
+  $('bloodLine').textContent = '“'+d.bl[lang]+'”';
+  $('recoItem').textContent = d.item[lang];
+  $('coupangBtn').href = COUPANG_URL;
+  $('amazonBtn').href  = AMAZON_URL;
+  // affiliate button scoping: Coupang for KO, Amazon for EN
+  $('coupangBtn').style.display = lang==='ko' ? 'flex' : 'none';
+  $('amazonBtn').style.display  = lang==='en' ? 'flex' : 'none';
+}
+var CAN_HISTORY = (function(){
+  try{ return window.self === window.top && /^https?:/.test(location.protocol); }
+  catch(e){ return false; }
+})();
+function setUrl(t){
+  if(!CAN_HISTORY) return;
+  try{ history.replaceState(null,'', t ? '?t='+t : location.pathname); }catch(e){}
+}
+function finish(){
+  currentType = calcType();
+  $('bar').style.width = '100%';
+  renderResult(currentType);
+  show('result');
+  setUrl(currentType);
+  if(window.gtag) gtag('event','result',{mbti:currentType});
+}
+
+$('retryBtn').onclick = ()=>{ setUrl(null); show('intro'); };
+
+/* ---- Canvas result card (save / share) ---- */
+function rrect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+function wrapText(x,t,cx,y,maxW,lh){
+  const words=t.split(' ');let line='',yy=y;
+  for(const w of words){const test=line+w+' ';
+    if(x.measureText(test).width>maxW && line){x.fillText(line.trim(),cx,yy);line=w+' ';yy+=lh;}
+    else line=test;}
+  x.fillText(line.trim(),cx,yy);return yy;
+}
+function drawLogo(x,cx,cy,s){
+  x.strokeStyle='#3D4248';x.lineWidth=s*0.46;x.beginPath();x.arc(cx,cy,s,0,Math.PI*2);x.stroke();
+  x.fillStyle='#3D4248';rrect(x,cx-s*0.25,cy+s*0.7,s*0.5,s*1.5,s*0.25);x.fill();
+}
+function makeCard(){
+  const t=currentType,d=TYPES[t],W=1080,H=1350;
+  const c=document.createElement('canvas');c.width=W;c.height=H;
+  const x=c.getContext('2d');const cx=W/2;
+  x.fillStyle='#FAFAF8';x.fillRect(0,0,W,H);
+  // aura
+  const ay=400,g=x.createRadialGradient(cx,ay,20,cx,ay,280);
+  g.addColorStop(0,'rgba(255,209,227,.85)');g.addColorStop(.45,'rgba(214,236,255,.55)');
+  g.addColorStop(.75,'rgba(218,251,228,.35)');g.addColorStop(1,'rgba(250,250,248,0)');
+  x.fillStyle=g;x.beginPath();x.arc(cx,ay,280,0,Math.PI*2);x.fill();
+  // emoji
+  x.textAlign='center';x.textBaseline='middle';
+  x.font='190px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+  x.fillText(EMOJI[t]||'🧩',cx,ay);
+  // type
+  x.fillStyle='#3D4248';x.font='800 160px Pretendard,sans-serif';x.fillText(t,cx,690);
+  // nickname
+  x.font='700 56px Pretendard,sans-serif';x.fillText(d.nick[lang],cx,790);
+  // desc
+  x.fillStyle='#6b7178';x.font='400 40px Pretendard,sans-serif';
+  wrapText(x,d.desc[lang],cx,880,840,56);
+  // blood pill
+  x.fillStyle='#f0efec';rrect(x,cx-260,1010,520,170,34);x.fill();
+  x.fillStyle='#3D4248';x.font='800 64px Pretendard,sans-serif';
+  x.fillText((lang==='ko'?d.blood+'형':d.blood+' type'),cx,1075);
+  x.fillStyle='#8a9099';x.font='italic 32px Pretendard,sans-serif';
+  x.fillText(lang==='ko'?'혈액형 유추 · 재미로만!':'blood guess · just for fun!',cx,1135);
+  // footer brand
+  drawLogo(x,cx-150,1255,30);
+  x.textAlign='left';x.fillStyle='#3D4248';x.font='800 52px Pretendard,sans-serif';
+  x.fillText('OnlyOne',cx-95,1278);
+  x.textAlign='center';x.fillStyle='#9aa0a6';x.font='400 30px Pretendard,sans-serif';
+  x.fillText(lang==='ko'?'케바케 MBTI':'MBTI IRL',cx,1320);
+  return c;
+}
+function shareText(){
+  return lang==='ko'
+    ? `내 케바케 MBTI는 ${currentType} (${TYPES[currentType].nick.ko})! 너도 해봐 👇`
+    : `My MBTI IRL is ${currentType} (${TYPES[currentType].nick.en})! Try it 👇`;
+}
+function shareUrl(){
+  try{ if(CAN_HISTORY) return location.origin+location.pathname+'?t='+currentType; }catch(e){}
+  return 'https://main.onlyonecorpceo.workers.dev';
+}
+$('saveBtn').onclick = ()=>{
+  makeCard().toBlob(b=>{
+    const u=URL.createObjectURL(b),a=document.createElement('a');
+    a.href=u;a.download='OnlyOne_'+currentType+'.png';a.click();
+    setTimeout(()=>URL.revokeObjectURL(u),1500);
+  },'image/png');
+  if(window.gtag) gtag('event','save_card',{mbti:currentType});
+};
+$('shareBtn').onclick = ()=>{
+  const text=shareText(),url=shareUrl();
+  makeCard().toBlob(async b=>{
+    const file=new File([b],'OnlyOne_'+currentType+'.png',{type:'image/png'});
+    try{
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],text,title:'케바케 MBTI · MBTI IRL'});
+      }else if(navigator.share){
+        await navigator.share({text,url,title:'케바케 MBTI · MBTI IRL'});
+      }else{
+        await navigator.clipboard.writeText(text+' '+url);
+        alert(lang==='ko'?'링크가 복사됐어요!':'Link copied!');
+      }
+    }catch(e){}
+  },'image/png');
+  if(window.gtag) gtag('event','share',{mbti:currentType});
+};
+
+/* ---- Shared result deep-link (?t=ENFP) ---- */
+(function(){
+  const t = new URLSearchParams(location.search).get('t');
+  if(t && TYPES[t.toUpperCase()]){
+    currentType = t.toUpperCase();
+    renderResult(currentType);
+    show('result');
+  }
+})();
+
+/* ============ Consent Mode v2 ============ */
+function grant(){
+  gtag('consent','update',{
+    ad_storage:'granted', ad_user_data:'granted',
+    ad_personalization:'granted', analytics_storage:'granted'
+  });
+}
+(function(){
+  const c = localStorage.getItem('oo_consent');
+  if(c === 'granted'){ grant(); }
+  else if(c !== 'declined'){ $('consent').classList.add('on'); }
+})();
+$('acceptBtn').onclick = ()=>{ localStorage.setItem('oo_consent','granted'); grant(); $('consent').classList.remove('on'); };
+$('declineBtn').onclick = ()=>{ localStorage.setItem('oo_consent','declined'); $('consent').classList.remove('on'); };
+
+/* ---- init ---- */
+applyLang();
+</script>
+</body>
+</html>
